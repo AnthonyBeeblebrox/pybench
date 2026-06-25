@@ -1,0 +1,18 @@
+[project]
+name = "synthetic"
+version = "0.1.0"
+description = "pybench example: a dependency-light synthetic loss-curve benchmark."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pybench",
+    "numpy>=1.26",
+    "scipy>=1.13",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.2,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+pybench = { workspace = true }

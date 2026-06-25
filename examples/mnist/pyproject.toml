@@ -1,0 +1,22 @@
+[project]
+name = "mnist"
+version = "0.1.0"
+description = "pybench example: JAX/Flax NNX MLP trained on MNIST."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pybench",
+    "jax[cuda12]>=0.4.35",
+    "optax>=0.2.4",
+    "datasets>=3.0.0",
+    "numpy>=1.26",
+    "flax>=0.12.7",
+    "pillow>=12.2.0",
+]
+
+[build-system]
+requires = ["uv_build>=0.10.2,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv.sources]
+pybench = { workspace = true }

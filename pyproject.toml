@@ -1,0 +1,80 @@
+[project]
+name = "pybench"
+version = "0.1.0"
+description = "Discover benchmark functions, run them across seeds, and statistically detect regressions against a saved baseline."
+readme = "README.md"
+authors = [
+    { name = "Anthony" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "click>=8.1",
+    "numpy>=1.26",
+    "scipy>=1.13",
+    "rich>=13.0",
+]
+
+[project.scripts]
+pybench = "pybench.cli:main"
+
+[build-system]
+requires = ["uv_build>=0.10.2,<0.11.0"]
+build-backend = "uv_build"
+
+[tool.uv.workspace]
+members = ["examples/*"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8",
+    "pyright>=1.1.390",
+    "pre-commit>=4.0",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+]
+docs = [
+    "sphinx>=8.0",
+    "furo>=2024.8",
+    "myst-parser>=4.0",
+    "sphinx-click>=6.0",
+    "matplotlib>=3.9",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "ANN", "D"]
+# ANN401 bans `typing.Any`; drop this ignore if you also want Any forbidden.
+ignore = ["ANN401"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+# Tests need neither full annotations nor docstrings.
+"tests/**" = ["ANN", "D"]
+
+[tool.pyright]
+# Strict type-checking for the package only; tests are linted by ruff and run
+# by pytest but not held to the full strict ruleset.
+include = ["src"]
+pythonVersion = "3.12"
+typeCheckingMode = "strict"
+venvPath = "."
+venv = ".venv"
+# scipy ships no type stubs; silence only that, keep strict for our own code.
+reportMissingTypeStubs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov --cov-report=term-missing"
+
+[tool.coverage.run]
+branch = true
+source = ["pybench"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
